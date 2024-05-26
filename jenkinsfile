@@ -1,0 +1,36 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('SCM') {
+            steps {
+                git 'https://github.com/RojaGogineni/micro-app.git'
+            }
+        }
+        stage('install') {
+            steps {
+                sh 'mvn install'
+            }
+        }
+        stage('package') {
+            steps {
+               sh 'mvn package'
+            }
+        }
+        stage('docker image build') {
+            steps {
+               sh 'sudo docker build -t m-app .'
+            }
+        }
+        stage('list images') {
+            steps {
+               sh 'sudo docker images'
+            }
+        }
+        stage('run docker image') {
+            steps {
+               //sh 'sudo docker run  -p 8081:8081 m-app'
+            }
+        }
+    }
+}
